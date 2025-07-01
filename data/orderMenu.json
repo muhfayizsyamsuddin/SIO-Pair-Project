@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "quantity": 1,
+    "priceAtOrder": 20000,
+    "OrderId": 1,
+    "MenuId": 1
+  },
+  {
+    "id": 2,
+    "quantity": 2,
+    "priceAtOrder": 15000,
+    "OrderId": 1,
+    "MenuId": 3
+  },
+  {
+    "id": 3,
+    "quantity": 1,
+    "priceAtOrder": 25000,
+    "OrderId": 2,
+    "MenuId": 2
+  },
+  {
+    "id": 4,
+    "quantity": 1,
+    "priceAtOrder": 18000,
+    "OrderId": 2,
+    "MenuId": 4
+  }
+]

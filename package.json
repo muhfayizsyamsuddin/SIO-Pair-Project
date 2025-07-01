@@ -1,0 +1,30 @@
+{
+  "name": "sio-pair-project",
+  "version": "1.0.0",
+  "description": "Piar Project Phase1 - Aplikasi Restoran SIO",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muhfayizsyamsuddin/SIO-Pair-Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/muhfayizsyamsuddin/SIO-Pair-Project/issues"
+  },
+  "homepage": "https://github.com/muhfayizsyamsuddin/SIO-Pair-Project#readme",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "sequelize-cli": "^6.6.3"
+  }
+}

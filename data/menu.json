@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Nasi Goreng",
+    "price": 20000,
+    "description": "Nasi goreng dengan telur dan ayam",
+    "statusMenu" : "Tersedia"
+  },
+  {
+    "id": 2,
+    "name": "Ayam Bakar",
+    "price": 25000,
+    "description": "Ayam bakar manis pedas",
+    "statusMenu": "Tersedia"
+  },
+  {
+    "id": 3,
+    "name": "Kopi Hitam",
+    "price": 15000,
+    "description": "Kopi hitam tanpa gula",
+    "statusMenu": "Tersedia"
+  },
+  {
+    "id": 4,
+    "name": "Es Kopi Susu",
+    "price": 18000,
+    "description": "Kopi susu dingin segar",
+    "statusMenu": "Tidak tersedia"
+  }
+]

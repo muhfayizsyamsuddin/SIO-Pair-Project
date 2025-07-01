@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "photoUrl": "https://example.com/images/budi.jpg",
+    "address": "Jl. Merdeka No. 123, Jakarta",
+    "UserId": 1
+  },
+  {
+    "id": 2,
+    "photoUrl": "https://example.com/images/siti.jpg",
+    "address": "Jl. Asia Afrika No. 45, Bandung",
+    "UserId": 2
+  }
+]

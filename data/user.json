@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "username": "budi123",
+    "email": "budi@example.com",
+    "password": "hashedpassword1",
+    "role": "customer"
+  },
+  {
+    "id": 2,
+    "username": "siti456",
+    "email": "siti@example.com",
+    "password": "hashedpassword2",
+    "role": "customer"
+  },
+  {
+    "id": 3,
+    "username": "adminresto",
+    "email": "admin@resto.com",
+    "password": "hashedadminpass",
+    "role": "admin"
+  }
+]
