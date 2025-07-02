@@ -10,17 +10,15 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Menu.belongsToMany(Order, {
-        through: 'OrderMenus',
-        foreignKey: 'MenuId',
-      })
+      Menu.belongsToMany(models.Order, {through: 'OrderMenus'})
     }
   }
   Menu.init({
     name: DataTypes.STRING,
     price: DataTypes.INTEGER,
     description: DataTypes.TEXT,
-    statusMenu: DataTypes.STRING
+    statusMenu: DataTypes.STRING,
+    imageUrl: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Menu',

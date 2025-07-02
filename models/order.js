@@ -13,10 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       // User.hasOne(models.UserProfile)
       Order.belongsTo(models.User)
-      Order.belongsToMany(Menu, {
-        through: 'OrderMenus',
-        foreignKey: 'OrderId',
-      });
+      Order.belongsToMany(models.Menu, {through: 'OrderMenus'})
     }
   }
   Order.init({

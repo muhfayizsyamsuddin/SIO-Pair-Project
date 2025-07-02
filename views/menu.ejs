@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menus</title>
+</head>
+<body>
+    <a href="/">Home</a>
+    <h1>Menus</h1>
+        <form action="/menus" method="get">
+            <input type="text" name="search">
+            <input type="submit" value="SEARCH">
+        </form>
+        <table border="2">
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Status Menu</th>
+                <!-- <th>Image</th> -->
+                <th>Action</th>
+            </tr>
+            <% menus.forEach((el,i) => { %>
+                <tr>
+                    <td style="text-align: center;"><%= i + 1 %></td>
+                    <td style="text-align: center;"><%= el.name %>
+                        <div style="display: block;">
+                            <img width="200px" src="<%= el.imageUrl %>" alt="gambar">
+                        </div>
+                    </td>
+                    <td style="text-align: center;"><%= el.description %></td>
+                    <td style="text-align: center;"><%= formatRupiah(el.price) %></td>
+                    <td style="text-align: center;"><%= el.statusMenu%></td>
+                    <td style="text-align: center;">
+                        <a href="">Order</a>
+                    </td>
+                </tr>
+            <% }) %>
+        </table>
+
+</body>
+</html>
