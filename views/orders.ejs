@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Orders</title>
+</head>
+<body>
+    <a href="/">⬅ Back to Home</a>
+    <a href="/menus">Menu</a>
+    <h1>Your Orders</h1>
+    <br>
+    <% if (success) { %>
+        <p style="color: green;"><%= success %></p>
+    <% } %>
+
+    <% if (orders.length === 0) { %>
+        <p>No orders yet.</p>
+    <% } else { %>
+        <table border="2">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Menu Name</th>
+                    <th>Time</th>
+                    <th>Quantity</th>
+                    <th>Price per Item</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+                <% orders.forEach((order, i) => { %>
+                    <% order.OrderMenus.forEach(orderMenu => { %>
+                        <tr>
+                            <td style="text-align: center;"><%= i + 1 %></td>
+                            <td style="text-align: center;"><%= orderMenu.Menu.name %> <br>
+                                <img width="200px" src="<%= orderMenu.Menu.imageUrl %>" alt="gambar">
+                            </td>
+                            <td style="text-align: center;"><%= order.formatDate %></td>
+                            <td style="text-align: center;">
+                                <form action="/orders/<%= orderMenu.id %>/edit" method="POST" style="display: inline;">
+                                    <input type="number" name="quantity" value="<%= orderMenu.quantity %>" min="1" style="width: 50px;">
+                                    <button type="submit">Tambah</button>
+                                </form>
+                            </td>
+                            <td style="text-align: center;">Rp <%= orderMenu.priceAtOrder.toLocaleString() %></td>
+                            <td style="text-align: center;"><%= order.statusOrder %></td>
+                            <td style="text-align: center;">
+                                <% if (order.statusOrder === 'active') { %>
+                                    <form action="/orders/<%= orderMenu.id %>/delete" method="POST" style="display:inline;">
+                                        <button type="submit">Hapus</button>
+                                    </form>
+                                    <form action="/orders/<%= order.id %>/pay" method="POST" style="display:inline;">
+                                        <button type="submit">Bayar</button>
+                                    </form>
+                                <% } else { %>
+                                    <span style="color: gray;">Sudah dibayar</span>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                <% }) %>
+        </table>
+    <% } %>
+</body>
+</html>

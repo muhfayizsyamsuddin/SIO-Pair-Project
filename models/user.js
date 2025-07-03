@@ -1,8 +1,11 @@
 'use strict';
+const { UserProfile } = require('./index')
 const {
   Model
 } = require('sequelize');
 const bcrypt = require('bcryptjs')
+
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -15,12 +18,73 @@ module.exports = (sequelize, DataTypes) => {
       // Store.hasMany(models.Employee, {foreignKey: 'StoreId'})
       User.hasOne(models.UserProfile)
     }
+
+    static async greeting(id){
+      return await User.findByPk(id, {
+        include: 'UserProfile'
+      });
+    }
   }
   User.init({
-    username: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    role: DataTypes.STRING
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Username is required!'
+        }, 
+        notNull: {
+          msg: 'Username is required!'
+        },
+        isLowercase: {
+          args: true,
+          msg: ' Username must be lowercase!'
+        }
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      unique: {
+        msg: 'Email must be unique'
+      },
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: ' Email is required!'
+        }, 
+        notNull: {
+          msg: ' Email is required!'
+        }
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: ' Password is required!'
+        }, 
+        notNull: {
+          msg: ' Password is required!'
+        }
+      }
+    },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: ' Role is required!'
+        }, 
+        notNull: {
+          msg: ' Role is required!'
+        }
+      }
+    }
   }, {
     hooks: {
       async beforeCreate(instance, options){

@@ -8,7 +8,10 @@
 <body>
     <a href="/">Home</a>
     <h1>Register</h1>
-    
+    <% if (err) { %>
+        <p style="display: inline-block; background-color: #d4edda; color: #155724; padding: 10px; margin-bottom: 10px; border-radius: 5px;"><%= err %></p>
+    <% } %>
+    <br>
     <form action="/register" method="post">
         <label>Username:</label><br>
         <input type="text" name="username" placeholder="username"><br>
@@ -18,6 +21,10 @@
         <input type="password" name="password" placeholder="password"><br>
         <label>Role:</label><br>
         <input type="text" name="role" placeholder="role"><br>
+        <label>Photo URL:</label><br>
+        <input type="text" name="photoUrl" placeholder="photoUrl"><br>
+        <label>Address:</label><br>
+        <input type="text" name="address" placeholder="address"><br>
         <br>
         <input type="submit" value="Register">
     </form>

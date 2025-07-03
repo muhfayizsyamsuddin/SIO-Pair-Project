@@ -6,12 +6,37 @@
     <title>Home Page</title>
 </head>
 <body>
+    <!-- <a href="/register">Register</a>
+    <a href="/login">Login</a>
+    <a href="/menus">Our Menus</a>
+    <a href="/logout">Logout</a>
+    <a href="/userprofile/%= user %>">Profile</a> -->
+    
     <nav>
-        <a href="/register">Register</a>
-        <a href="/login">Login</a>
-        <a href="/menus">Our Menus</a>
-        <a href="/logout">Logout</a>
-    </nav>
-    <h1>Home Page</h1>
+        <% if (!user) { %>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        <% } else { %>
+            <a href="/menus">Our Menus</a> ||
+            <!-- <a href="/orders">Your Orders</a> || -->
+            <a href="/logout">Logout</a>
+            <% } %>
+        </nav>
+        <h1>Home Page</h1>
+        <h2>Welcome, <%= user.username %></h2>
+        <p>SIO (SimpleOrder) adalah aplikasi on-demand yang bertujuan mempermudah pelanggan dalam memesan makanan atau minuman di restoran dengan cara yang simpel dan efisien. Aplikasi ini dirancang agar pengguna dapat melakukan pemesanan secara cepat, memantau status pesanan, dan restoran dapat mengelola order secara lebih terorganisir.</p>
+        <p>
+        Aplikasi ini mendukung sistem pemesanan modern dengan: <br>
+        ✅ Pendaftaran & login user
+        <br>
+        ✅ Manajemen profil pengguna (alamat, foto)
+        <br>
+        ✅ Pilihan menu lengkap dengan ketersediaan (tersedia/habis)
+        <br>
+        ✅ Proses order yang praktis
+        <br>
+        ✅ Status pesanan (misalnya: active, completed)
+        <br>
+        ✅ Integrasi dengan paket easyinvoice untuk pembuatan invoice digital secara otomatis setelah transaksi selesai.</p>
 </body>
 </html>

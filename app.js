@@ -17,6 +17,12 @@ app.use(session({
     } //! https
 }))
 
+//! untuk handle anchor pas session user
+// app.use((req, res, next) => {
+//     res.locals.user = req.session.user;
+//     next();
+// });
+
 app.use('/', router)
 
 app.listen(port, () => {

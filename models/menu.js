@@ -10,8 +10,15 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Menu.belongsToMany(models.Order, {through: 'OrderMenus'})
+      Menu.hasMany(models.OrderMenu)
     }
+    // get formatDate(){
+    //   return new Date(this.createdAt).toLocaleString('en-CA', {
+    //         year: 'numeric',
+    //         month: 'numeric',
+    //         day: 'numeric'
+    //     })
+    // }
   }
   Menu.init({
     name: DataTypes.STRING,

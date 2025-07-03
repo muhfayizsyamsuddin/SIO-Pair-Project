@@ -7,11 +7,16 @@
 </head>
 <body>
     <a href="/">Home</a>
+    <a href="/orders">Your Orders</a>
     <h1>Menus</h1>
         <form action="/menus" method="get">
             <input type="text" name="search">
             <input type="submit" value="SEARCH">
         </form>
+        <% if (success) { %>
+            <p style="color: green; font-weight: bold;"><%= success %></p>
+        <% } %>
+        <br>
         <table border="2">
             <tr>
                 <th>No</th>
@@ -34,7 +39,9 @@
                     <td style="text-align: center;"><%= formatRupiah(el.price) %></td>
                     <td style="text-align: center;"><%= el.statusMenu%></td>
                     <td style="text-align: center;">
-                        <a href="">Order</a>
+                        <form action="/orders/<%= el.id %>" method="POST">
+                            <button type="submit">Order</button>
+                        </form>
                     </td>
                 </tr>
             <% }) %>

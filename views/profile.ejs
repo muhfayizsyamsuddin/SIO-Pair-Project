@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="/">Home</a>
+    <h1>Profile: <%= user.username %></h1>
+    <table border="2">
+        <tr>
+            <th>Profile Picture</th>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Address</th>
+        </tr>
+        <tr>
+            
+            <td>
+                <!-- <img src="%= user.UserProfile.photoUrl %>"> -->
+                <% if (user.UserProfile && user.UserProfile.photoUrl) { %>
+                    <img src="<%= user.UserProfile.photoUrl %>" width="100">
+                <% } else { %>
+                    <p>No photo</p>
+                <% } %>
+            </td>
+            <td><%= user.username %></td>
+            <td><%= user.email %></td>
+            <td><%= user.role %></td>
+            <td>
+                <!-- %= user.UserProfile.address %> -->
+                <% if (user.UserProfile && user.UserProfile.address) { %>
+                    <%= user.UserProfile.address %>
+                <% } else { %>
+                    <p>No address</p>
+                <% } %>
+            </td>
+            
+        </tr>
+    </table>
+</body>
+</html>

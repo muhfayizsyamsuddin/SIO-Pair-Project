@@ -5,11 +5,13 @@ const userController = require('../controllers/userController')
 
 
 
-
 router.get('/register', userController.registerForm)
 router.post('/register', userController.postRegister)
 router.get('/login', userController.loginForm)
 router.post('/login', userController.postLogin)
+// router.get('/logout', userController.getLogout)
+router.get('/logout', userController.deleteUser)
+
 
 router.use((req, res, next) => {  //! middleware global
     console.log(req.session)
@@ -23,6 +25,20 @@ router.use((req, res, next) => {  //! middleware global
 })
 // 12345
 // 6789
+
+router.get('/', userController.homePage)
+
+// router.get('/menus', userController.getMenus)
+router.get('/orders', userController.getOrders)
+router.post('/orders/:menuId', userController.postOrder)
+router.post('/orders/:menuId/edit', userController.handlerEdit)
+router.post('/orders/:menuId/delete', userController.handlerDelete)
+router.post('/orders/:menuId/pay', userController.payOrder);
+router.get('/userprofile/:userId', userController.userProfile)
+
+
+
+
 router.use((req, res, next) => {  //! middleware global
     console.log(req.session)
     if (req.session.role && req.session.role !== 'admin') {
@@ -39,9 +55,6 @@ router.use((req, res, next) => {  //! middleware global
 //     next()
 // }
 
-router.get('/', userController.homePage)
-router.get('/menus', userController.getMenus);
-router.get('/logout', userController.getLogout)
 // router.get('/user', userController.homePage)
 // router.get('/user', userController.homePage)
 

@@ -10,5 +10,17 @@
     "photoUrl": "https://example.com/images/siti.jpg",
     "address": "Jl. Asia Afrika No. 45, Bandung",
     "UserId": 2
+  },
+  {
+    "id": 3,
+    "photoUrl": "https://example.com/images/siti.jpg",
+    "address": "Jl. Asia Afrika No. 45, Bandung",
+    "UserId": 3
+  },
+  {
+    "id": 4,
+    "photoUrl": "https://example.com/images/siti.jpg",
+    "address": "Jl. Asia Afrika No. 45, Bandung",
+    "UserId": 4
   }
 ]

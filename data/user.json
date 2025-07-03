@@ -3,7 +3,7 @@
     "id": 1,
     "username": "budi123",
     "email": "budi@example.com",
-    "password": "hashedpassword1",
+    "password": "pastimasuk",
     "role": "customer"
   },
   {
@@ -18,6 +18,13 @@
     "username": "adminresto",
     "email": "admin@resto.com",
     "password": "hashedadminpass",
+    "role": "admin"
+  },
+  {
+    "id": 4,
+    "username": "budibug",
+    "email": "budianjay@gmail.com",
+    "password": "pastimasuk",
     "role": "admin"
   }
 ]
