@@ -1,83 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
-    <style>
-    body {
-        font-family: sans-serif;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home Page</title>
+  <style>
+        * {
+        box-sizing: border-box;
+        }
+
+        body {
+        font-family: 'Segoe UI', sans-serif;
         margin: 0;
-        background: #f9f9f9;
+        padding: 0;
+        background: #f5f7fa;
         color: #333;
-    }
-    nav {
-        background: #333;
-        color: #fff;
-        padding: 13px 20px;
+        }
+
+        nav {
+        background: #2c3e50;
+        padding: 15px 20px;
         text-align: center;
-    }
-    nav a {
+        }
+
+        nav a {
         color: #fff;
-        margin-right: 15px;
+        margin: 0 12px;
         text-decoration: none;
-    }
-    nav a:hover {
-        text-decoration: underline;
-    }
-    .container {
-        max-width: 800px;
+        font-weight: 500;
+        transition: color 0.2s;
+        }
+
+        nav a:hover {
+        color: #18bc9c;
+        }
+
+        .container {
+        max-width: 900px;
         margin: 40px auto;
         background: #fff;
-        padding: 30px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1, h2 {
-        color: #222;
-    }
-    .features-list {
-        margin-top: 20px;
-        padding-left: 20px;
-    }
-    .features-list li {
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+        font-size: 32px;
         margin-bottom: 10px;
-    }
-    </style>
+        }
+
+        h2 {
+        font-weight: normal;
+        color: #555;
+        }
+
+        p {
+        line-height: 1.6;
+        margin-top: 10px;
+        }
+
+        .features-list {
+        margin-top: 25px;
+        padding-left: 20px;
+        }
+
+        .features-list li {
+        margin-bottom: 12px;
+        font-size: 16px;
+        }
+
+        @media (max-width: 600px) {
+        nav a {
+            display: block;
+            margin: 10px 0;
+        }
+
+        .container {
+            margin: 20px;
+            padding: 25px;
+        }
+        }
+  </style>
 </head>
 <body>
-    <!-- <a href="/register">Register</a>
-    <a href="/login">Login</a>
-    <a href="/menus">Our Menus</a>
-    <a href="/logout">Logout</a>
-    <a href="/userprofile/%= user %>">Profile</a> -->
+  <nav>
+    <% if (!user) { %>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    <% } else { %>
+      <a href="/menus">Our Menus</a>
+      <a href="/userprofile/<%= user.id %>">Profile</a>
+      <% if (user.role === 'admin') { %>
+        <a href="/allUsers/<%= user.id %>">All Users</a>
+      <% } %>
+      <a href="/logout">Logout</a>
+    <% } %>
+  </nav>
+
+  <div class="container">
+    <h1>Home Page</h1>
+    <h2>Welcome, <%= user ? user.username : 'Guest' %></h2>
     
-    <nav>
-        <% if (!user) { %>
-            <a href="/login">Login</a>
-            <a href="/register">Register</a>
-        <% } else { %>
-            <a href="/menus">Our Menus</a>
-            <a href="/userprofile/<%= user.id %>">Profile</a>
-            <% if (user.role === 'admin') { %>
-                <a href="/allUsers/<%= user.id %>">All Users</a>
-            <% } %>
-            <a href="/logout">Logout</a>
-        <% } %>
-    </nav>
-    <div class="container">
-        <h1>Home Page</h1>
-        <h2>Welcome, <%= user ? user.username : 'Guest' %></h2>
-        <p>SIO (SimpleOrder) adalah aplikasi pemesanan makanan dan minuman secara online yang dirancang untuk memberikan pengalaman order yang cepat, simpel, dan efisien langsung dari restoran pilihan Anda..</p>
-        <p>Aplikasi ini mendukung sistem pemesanan modern dengan: </p>
-        <ul class="features-list">
-            <li>Pendaftaran & login user</li>
-            <li>Manajemen profil pengguna (alamat, foto)</li>
-            <li>Pilihan menu lengkap dengan ketersediaan (tersedia/habis)</li>
-            <li>Proses order yang praktis</li>
-            <li>Status pesanan (misalnya: active, completed)</li>
-            <li>Integrasi dengan paket easyinvoice untuk pembuatan invoice digital secara otomatis setelah transaksi selesai</li>
-        </ul>
-    </div>
+    <p>
+      <strong>SIO (SimpleOrder)</strong> adalah aplikasi pemesanan makanan dan minuman secara online yang dirancang untuk memberikan pengalaman order yang cepat, simpel, dan efisien langsung dari restoran pilihan Anda.
+    </p>
+    
+    <p>Aplikasi ini mendukung sistem pemesanan modern dengan fitur-fitur berikut:</p>
+    <ul class="features-list">
+      <li>Pendaftaran & login user</li>
+      <li>Manajemen profil pengguna (alamat, foto)</li>
+      <li>Pilihan menu lengkap dengan ketersediaan (tersedia/habis)</li>
+      <li>Proses order yang praktis</li>
+      <li>Status pesanan (active, completed)</li>
+      <li>Invoice digital otomatis setelah pembayaran via EasyInvoice</li>
+    </ul>
+  </div>
 </body>
 </html>

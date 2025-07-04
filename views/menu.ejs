@@ -1,87 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menus</title>
-    <style>
-    body {
-        font-family: sans-serif;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menus</title>
+  <style>
+        body {
+        font-family: 'Segoe UI', sans-serif;
         margin: 0;
-        background: #f9f9f9;
+        background: #f5f7fa;
         color: #333;
-    }
-    nav {
-        background: #333;
-        color: #fff;
-        padding: 13px 20px;
+        }
+
+        nav {
+        background: #2c3e50;
+        padding: 15px 20px;
         text-align: center;
-    }
-    nav a {
+        }
+
+        nav a {
         color: #fff;
-        margin-right: 15px;
+        margin: 0 12px;
         text-decoration: none;
-    }
-    nav a:hover {
-        text-decoration: underline;
-    }
-    .container {
-        max-width: 800px;
+        font-weight: 500;
+        transition: color 0.2s;
+        }
+
+        nav a:hover {
+        color: #18bc9c;
+        }
+
+        .container {
+        max-width: 1000px;
         margin: 40px auto;
         background: #fff;
-        padding: 30px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1, h2 {
-        color: #222;
-    }
-    </style>
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 32px;
+        color: #2c3e50;
+        }
+
+        form {
+        text-align: center;
+        margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+        padding: 10px;
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+        }
+
+        input[type="submit"] {
+        padding: 10px 20px;
+        background-color: #18bc9c;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        margin-left: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+        background-color: #139b83;
+        }
+
+        .success-message {
+        color: green;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+        }
+
+        table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        }
+
+        table th,
+        table td {
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+        background-color: #f1f1f1;
+        }
+
+        img {
+        max-width: 120px;
+        border-radius: 4px;
+        margin-top: 5px;
+        }
+
+        button {
+        background-color: #3498db;
+        border: none;
+        padding: 10px 14px;
+        border-radius: 6px;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        }
+
+        button:hover {
+        background-color: #2980b9;
+        }
+
+        @media (max-width: 600px) {
+        input[type="text"] {
+            width: 90%;
+            margin-bottom: 10px;
+        }
+        .container {
+            margin: 20px;
+            padding: 25px;
+        }
+        }
+  </style>
 </head>
 <body>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/orders">Your Orders</a>
-    </nav>
-    <h1>Menus</h1>
-    <div>
-        <form action="/menus" method="get">
-            <input type="text" name="search">
-            <input type="submit" value="SEARCH">
-        </form><br>
-    <div>
-        <% if (success) { %>
-            <p style="color: green; font-weight: bold;"><%= success %></p>
-        <% } %>
-        <table border="2">
-            <tr>
-                <th>No</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Status Menu</th>
-                <!-- <th>Image</th> -->
-                <th>Action</th>
-            </tr>
-            <% menus.forEach((el,i) => { %>
-                <tr>
-                    <td style="text-align: center;"><%= i + 1 %></td>
-                    <td style="text-align: center;"><%= el.name %>
-                        <div style="display: block;">
-                            <img width="200px" src="<%= el.imageUrl %>" alt="gambar">
-                        </div>
-                    </td>
-                    <td style="text-align: center;"><%= el.description %></td>
-                    <td style="text-align: center;"><%= formatRupiah(el.price) %></td>
-                    <td style="text-align: center;"><%= el.statusMenu%></td>
-                    <td style="text-align: center;">
-                        <form action="/orders/<%= el.id %>" method="POST">
-                            <button type="submit">Order</button>
-                        </form>
-                    </td>
-                </tr>
-            <% }) %>
-        </table>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/orders">Your Orders</a>
+  </nav>
 
+  <div class="container">
+    <h1>Our Menus</h1>
+
+    <form action="/menus" method="get">
+      <input type="text" name="search" placeholder="Search menu...">
+      <input type="submit" value="SEARCH">
+    </form>
+
+    <% if (success) { %>
+      <div class="success-message"><%= success %></div>
+    <% } %>
+
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Menu</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Order</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% menus.forEach((el, i) => { %>
+          <tr>
+            <td><%= i + 1 %></td>
+            <td>
+              <%= el.name %><br>
+              <img src="<%= el.imageUrl %>" alt="gambar">
+            </td>
+            <td><%= el.description %></td>
+            <td><%= formatRupiah(el.price) %></td>
+            <td><%= el.statusMenu %></td>
+            <td>
+              <form action="/orders/<%= el.id %>" method="POST">
+                <button type="submit">Order</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>

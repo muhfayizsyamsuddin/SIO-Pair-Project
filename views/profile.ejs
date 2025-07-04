@@ -1,97 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Profile Page</title>
-    <style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Profile</title>
+  <style>
     body {
-        font-family: sans-serif;
-        margin: 0;
-        background: #f9f9f9;
-        color: #333;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #f5f7fa;
+      color: #333;
     }
+
     nav {
-        background: #333;
-        color: #fff;
-        padding: 13px 20px;
-        text-align: center;
+      background: #2c3e50;
+      padding: 15px 20px;
+      text-align: center;
     }
+
     nav a {
-        color: #fff;
-        margin-right: 15px;
-        text-decoration: none;
+      color: #fff;
+      margin: 0 12px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
     }
+
     nav a:hover {
-        text-decoration: underline;
+      color: #18bc9c;
     }
+
     .container {
-        max-width: 800px;
-        margin: 40px auto;
-        background: #fff;
-        padding: 30px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 1000px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
     }
+
     h1 {
-        color: #222;
-        text-align: center;
-        margin-bottom: 30px;
+      text-align: center;
+      font-size: 32px;
+      color: #2c3e50;
+      margin-bottom: 30px;
     }
+
     table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 0 auto;
+      width: 100%;
+      border-collapse: collapse;
     }
+
     th, td {
-        border: 1px solid #ddd;
-        text-align: left;
-        padding: 12px;
+      padding: 14px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+      vertical-align: middle;
     }
+
     th {
-        background-color: #f4f4f4;
+      background-color: #f1f1f1;
+      color: #333;
     }
+
     img {
-        border-radius: 8px;
+      max-width: 100px;
+      border-radius: 6px;
     }
-    </style>
+
+    .no-data {
+      color: #888;
+      font-style: italic;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 25px;
+      }
+      img {
+        max-width: 80px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <nav>
+  <nav>
     <a href="/">Home</a>
     <a href="/menus">Menus</a>
+    <a href="/orders">Your Orders</a>
     <a href="/logout">Logout</a>
-    </nav>
-    <div class="container">
+  </nav>
+
+  <div class="container">
     <h1>Profile: <%= user.username %></h1>
     <table>
-        <tr>
+      <tr>
         <th>Profile Picture</th>
         <th>Username</th>
         <th>Email</th>
         <th>Role</th>
-        <th>Address</th> 
-        </tr>
-        <tr>
-        <td style="text-align: center;">
-            <% if (user.UserProfile && user.UserProfile.photoUrl) { %>
-            <img src="<%= user.UserProfile.photoUrl %>" width="100">
-            <% } else { %>
-            <p>No photo</p>
-            <% } %>
+        <th>Address</th>
+      </tr>
+      <tr>
+        <td>
+          <% if (user.UserProfile && user.UserProfile.photoUrl) { %>
+            <img src="<%= user.UserProfile.photoUrl %>" alt="Profile Picture">
+          <% } else { %>
+            <span class="no-data">No photo</span>
+          <% } %>
         </td>
         <td><%= user.username %></td>
         <td><%= user.email %></td>
         <td><%= user.role %></td>
         <td>
-            <% if (user.UserProfile && user.UserProfile.address) { %>
+          <% if (user.UserProfile && user.UserProfile.address) { %>
             <%= user.UserProfile.address %>
-            <% } else { %>
-            <p>No address</p>
-            <% } %>
+          <% } else { %>
+            <span class="no-data">No address</span>
+          <% } %>
         </td>
-        </tr>
+      </tr>
     </table>
-    </div>
+  </div>
 </body>
 </html>

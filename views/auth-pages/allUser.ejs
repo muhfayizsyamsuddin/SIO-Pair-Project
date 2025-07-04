@@ -1,89 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SIO</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Users</title>
   <style>
     body {
-        font-family: sans-serif;
-        margin: 0;
-        background: #f9f9f9;
-        color: #333;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #f5f7fa;
+      color: #333;
     }
+
     nav {
-        background: #333;
-        color: #fff;
-        padding: 13px 20px;
-        text-align: center;
+      background: #2c3e50;
+      padding: 15px 20px;
+      text-align: center;
     }
+
     nav a {
-        color: #fff;
-        margin-right: 15px;
-        text-decoration: none;
+      color: #fff;
+      margin: 0 12px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
     }
+
     nav a:hover {
-        text-decoration: underline;
+      color: #18bc9c;
     }
+
     .container {
-        max-width: 800px;
-        margin: 40px auto;
-        background: #fff;
-        padding: 30px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 1000px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
     }
-    h1, h2 {
-        color: #222;
+
+    h1 {
+      text-align: center;
+      font-size: 32px;
+      color: #2c3e50;
+      margin-bottom: 30px;
     }
-    .features-list {
-        margin-top: 20px;
-        padding-left: 20px;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
     }
-    .features-list li {
-        margin-bottom: 10px;
+
+    table th, table td {
+      padding: 14px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+      vertical-align: middle;
     }
-    </style>
+
+    table th {
+      background-color: #f1f1f1;
+    }
+
+    .gray-text {
+      color: gray;
+      font-style: italic;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 25px;
+        margin: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
   <nav>
     <a href="/">Home</a>
+    <a href="/menus">Menus</a>
+    <a href="/logout">Logout</a>
   </nav>
-  <center>
+
+  <div class="container">
     <h1>All Users</h1>
-    <table border="4">
+    <table>
       <thead>
         <tr>
           <th>Username</th>
           <th>Email</th>
           <th>Role</th>
-          <th>Status Order</th>
+          <th>Status Orders</th>
         </tr>
       </thead>
-      <tbody style="text-align: center;">
+      <tbody>
         <% user.forEach(el => { %>
           <tr>
             <td><%= el.username %></td>
             <td><%= el.email %></td>
             <td><%= el.role %></td>
             <td>
-              
-                <% if (el.Orders && el.Orders.length > 0) { %>
-                  
-                  <% el.Orders.forEach(order => { %>
-                    <%= order.statusOrder %> (Order Id: <%= order.id %>) 
-                    <br>
-                  <% }) %>
-                  
-                <% } else { %>
-                  <span>No orders</span>
-                <% } %>
-              
+              <% if (el.Orders && el.Orders.length > 0) { %>
+                <% el.Orders.forEach(order => { %>
+                  <div><%= order.statusOrder %> (ID: <%= order.id %>)</div>
+                <% }) %>
+              <% } else { %>
+                <span class="gray-text">No orders</span>
+              <% } %>
             </td>
           </tr>
         <% }) %>
       </tbody>
     </table>
-  </center>
+  </div>
 </body>
 </html>

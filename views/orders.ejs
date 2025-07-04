@@ -1,117 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Your Orders</title>
-    <style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Orders</title>
+  <style>
     body {
-        font-family: sans-serif;
-        margin: 0;
-        background: #f9f9f9;
-        color: #333;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #f5f7fa;
+      color: #333;
     }
+
     nav {
-        background: #333;
-        color: #fff;
-        padding: 20px 20px;
-        text-align: center;
+      background: #2c3e50;
+      padding: 15px 20px;
+      text-align: center;
     }
+
     nav a {
-        color: #fff;
-        margin-right: 15px;
-        text-decoration: none;
+      color: #fff;
+      margin: 0 12px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
     }
+
     nav a:hover {
-        text-decoration: underline;
+      color: #18bc9c;
     }
+
     .container {
-        max-width: 800px;
-        margin: 40px auto;
-        background: #fff;
-        padding: 30px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 1000px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
     }
-    h1, h2 {
-        color: #222;
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 32px;
+      color: #2c3e50;
     }
-    .features-list {
-        margin-top: 20px;
-        padding-left: 20px;
+
+    .success-message {
+      color: green;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
     }
-    .features-list li {
-        margin-bottom: 10px;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
     }
-    </style>
+
+    table th,
+    table td {
+      padding: 14px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+      vertical-align: middle;
+    }
+
+    table th {
+      background-color: #f1f1f1;
+    }
+
+    img {
+      max-width: 120px;
+      border-radius: 4px;
+      margin-top: 5px;
+    }
+
+    input[type="number"] {
+      width: 60px;
+      padding: 6px;
+      text-align: center;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      padding: 8px 12px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 2px;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    a button {
+      background-color: #2ecc71;
+    }
+
+    a button:hover {
+      background-color: #27ae60;
+    }
+
+    .gray-text {
+      color: gray;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 20px;
+        padding: 25px;
+      }
+      img {
+        max-width: 80px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/menus">Menu</a>
-    </nav>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/menus">Menu</a>
+  </nav>
+
+  <div class="container">
     <h1>Your Orders</h1>
-    
+
     <% if (success) { %>
-        <p style="color: green;"><%= success %></p>
+      <div class="success-message"><%= success %></div>
     <% } %>
 
     <% if (orders.length === 0) { %>
-        <p>No orders yet.</p>
+      <p style="text-align: center;">No orders yet.</p>
     <% } else { %>
-        <table border="2">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Menu Name</th>
-                    <th>Time</th>
-                    <th>Quantity</th>
-                    <th>Price per Item</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-                <% orders.forEach((order, i) => { %>
-                    <% order.OrderMenus.forEach(orderMenu => { %>
-                        <tr>
-                            <td style="text-align: center;"><%= i + 1 %></td>
-                            <td style="text-align: center;"><%= orderMenu.Menu.name %> <br>
-                                <img width="200px" src="<%= orderMenu.Menu.imageUrl %>" alt="gambar">
-                            </td>
-                            <td style="text-align: center;"><%= order.formatDate %></td>
-                            <td style="text-align: center;">
-                                <% if (order.statusOrder === 'active') { %>
-                                    <form action="/orders/<%= orderMenu.id %>/edit" method="POST" style="display: inline;">
-                                        <input type="number" name="quantity" value="<%= orderMenu.quantity %>" min="1" style="width: 50px;">
-                                        <button type="submit">Tambah</button>
-                                    </form>
-                                <% } else { %>
-                                    <span><%= orderMenu.quantity %></span>
-                                <% } %>
-                            </td>
-                            <td style="text-align: center;"><%= formatRupiah(orderMenu.priceAtOrder) %></td>
-                            <td style="text-align: center;"><%= order.statusOrder %></td>
-                            <td style="text-align: center;">
-                                <% if (order.statusOrder === 'active') { %>
-                                    <form action="/orders/<%= orderMenu.id %>/delete" method="POST" style="display:inline;">
-                                        <button type="submit">Hapus</button>
-                                    </form>
-                                    <form action="/orders/<%= order.id %>/pay" method="POST" style="display:inline;">
-                                        <button type="submit">Bayar</button>
-                                    </form>
-                                <% } else { %>
-                                    <span style="color: gray;">Sudah dibayar</span>
-                                <% } %>
-
-                                <% if (order.statusOrder === 'completed') { %>
-                                    <a href="/orders/invoice/<%= order.id %>">
-                                        <button>Download Invoice</button>
-                                    </a>
-                                <% } %>
-                            </td>
-                        </tr>
-                    <% }) %>
-                <% }) %>
-        </table>
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Menu</th>
+            <th>Time</th>
+            <th>Quantity</th>
+            <th>Price/item</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% orders.forEach((order, i) => { %>
+            <% order.OrderMenus.forEach(orderMenu => { %>
+              <tr>
+                <td><%= i + 1 %></td>
+                <td>
+                  <%= orderMenu.Menu.name %><br>
+                  <img src="<%= orderMenu.Menu.imageUrl %>" alt="gambar">
+                </td>
+                <td><%= order.formatDate %></td>
+                <td>
+                  <% if (order.statusOrder === 'active') { %>
+                    <form action="/orders/<%= orderMenu.id %>/edit" method="POST" style="display:inline-block;">
+                      <input type="number" name="quantity" value="<%= orderMenu.quantity %>" min="1">
+                      <button type="submit">Tambah</button>
+                    </form>
+                  <% } else { %>
+                    <span><%= orderMenu.quantity %></span>
+                  <% } %>
+                </td>
+                <td><%= formatRupiah(orderMenu.priceAtOrder) %></td>
+                <td><%= order.statusOrder %></td>
+                <td>
+                  <% if (order.statusOrder === 'active') { %>
+                    <form action="/orders/<%= orderMenu.id %>/delete" method="POST" style="display:inline-block;">
+                      <button type="submit">Hapus</button>
+                    </form>
+                    <form action="/orders/<%= order.id %>/pay" method="POST" style="display:inline-block;">
+                      <button type="submit">Bayar</button>
+                    </form>
+                  <% } else { %>
+                    <span class="gray-text">Sudah dibayar</span><br>
+                    <a href="/orders/invoice/<%= order.id %>">
+                      <button>Download Invoice</button>
+                    </a>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          <% }) %>
+        </tbody>
+      </table>
     <% } %>
+  </div>
 </body>
 </html>
