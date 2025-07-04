@@ -1,10 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const menuController = require('../controllers/menuController')
+const MenuController = require('../controllers/menuController')
+const { isLogin, isAdmin } = require('../middleware/auth'); 
 
-
-router.get('/', menuController.getMenus);
-router.get('/menus', menuController.getMenus);
-// router.get('/menus')
+router.get('/', MenuController.getMenus);
 
 module.exports = router

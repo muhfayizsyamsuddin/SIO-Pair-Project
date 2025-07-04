@@ -3,12 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Your Orders</title>
+    <style>
+    body {
+        font-family: sans-serif;
+        margin: 0;
+        background: #f9f9f9;
+        color: #333;
+    }
+    nav {
+        background: #333;
+        color: #fff;
+        padding: 20px 20px;
+        text-align: center;
+    }
+    nav a {
+        color: #fff;
+        margin-right: 15px;
+        text-decoration: none;
+    }
+    nav a:hover {
+        text-decoration: underline;
+    }
+    .container {
+        max-width: 800px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+        color: #222;
+    }
+    .features-list {
+        margin-top: 20px;
+        padding-left: 20px;
+    }
+    .features-list li {
+        margin-bottom: 10px;
+    }
+    </style>
 </head>
 <body>
-    <a href="/">⬅ Back to Home</a>
-    <a href="/menus">Menu</a>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/menus">Menu</a>
+    </nav>
     <h1>Your Orders</h1>
-    <br>
+    
     <% if (success) { %>
         <p style="color: green;"><%= success %></p>
     <% } %>
@@ -37,12 +79,16 @@
                             </td>
                             <td style="text-align: center;"><%= order.formatDate %></td>
                             <td style="text-align: center;">
-                                <form action="/orders/<%= orderMenu.id %>/edit" method="POST" style="display: inline;">
-                                    <input type="number" name="quantity" value="<%= orderMenu.quantity %>" min="1" style="width: 50px;">
-                                    <button type="submit">Tambah</button>
-                                </form>
+                                <% if (order.statusOrder === 'active') { %>
+                                    <form action="/orders/<%= orderMenu.id %>/edit" method="POST" style="display: inline;">
+                                        <input type="number" name="quantity" value="<%= orderMenu.quantity %>" min="1" style="width: 50px;">
+                                        <button type="submit">Tambah</button>
+                                    </form>
+                                <% } else { %>
+                                    <span><%= orderMenu.quantity %></span>
+                                <% } %>
                             </td>
-                            <td style="text-align: center;">Rp <%= orderMenu.priceAtOrder.toLocaleString() %></td>
+                            <td style="text-align: center;"><%= formatRupiah(orderMenu.priceAtOrder) %></td>
                             <td style="text-align: center;"><%= order.statusOrder %></td>
                             <td style="text-align: center;">
                                 <% if (order.statusOrder === 'active') { %>
@@ -54,6 +100,12 @@
                                     </form>
                                 <% } else { %>
                                     <span style="color: gray;">Sudah dibayar</span>
+                                <% } %>
+
+                                <% if (order.statusOrder === 'completed') { %>
+                                    <a href="/orders/invoice/<%= order.id %>">
+                                        <button>Download Invoice</button>
+                                    </a>
                                 <% } %>
                             </td>
                         </tr>

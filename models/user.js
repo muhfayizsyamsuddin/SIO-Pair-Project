@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       // Store.hasMany(models.Employee, {foreignKey: 'StoreId'})
       User.hasOne(models.UserProfile)
+      User.hasMany(models.Order)
     }
 
     static async greeting(id){

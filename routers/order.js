@@ -1,10 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const orderController = require('../controllers/orderController')
+const OrderController = require('../controllers/orderController')
+const { isLogin, isAdmin } = require('../middleware/auth'); 
 
-router.get('/orders', orderController.getOrders);
-router.post('/orders', orderController.createOrder);
-router.post('/orders/:orderId/add-menu', orderController.addMenuToOrder);
-router.get('/orders/:orderId', orderController.getOrderDetail);
+router.get('/', OrderController.getOrders)
+router.post('/:menuId', OrderController.postOrder)
+router.post('/:menuId/edit', OrderController.handlerEdit)
+router.post('/:menuId/delete', OrderController.handlerDelete)
+router.post('/:menuId/pay', OrderController.payOrder)
+router.get('/invoice/:orderId', OrderController.downloadInvoice)
 
 module.exports = router

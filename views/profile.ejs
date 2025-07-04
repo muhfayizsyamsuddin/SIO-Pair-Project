@@ -1,44 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Profile Page</title>
+    <style>
+    body {
+        font-family: sans-serif;
+        margin: 0;
+        background: #f9f9f9;
+        color: #333;
+    }
+    nav {
+        background: #333;
+        color: #fff;
+        padding: 13px 20px;
+        text-align: center;
+    }
+    nav a {
+        color: #fff;
+        margin-right: 15px;
+        text-decoration: none;
+    }
+    nav a:hover {
+        text-decoration: underline;
+    }
+    .container {
+        max-width: 800px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+        color: #222;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 auto;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        text-align: left;
+        padding: 12px;
+    }
+    th {
+        background-color: #f4f4f4;
+    }
+    img {
+        border-radius: 8px;
+    }
+    </style>
 </head>
 <body>
+    <nav>
     <a href="/">Home</a>
+    <a href="/menus">Menus</a>
+    <a href="/logout">Logout</a>
+    </nav>
+    <div class="container">
     <h1>Profile: <%= user.username %></h1>
-    <table border="2">
+    <table>
         <tr>
-            <th>Profile Picture</th>
-            <th>User Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Address</th>
+        <th>Profile Picture</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Address</th> 
         </tr>
         <tr>
-            
-            <td>
-                <!-- <img src="%= user.UserProfile.photoUrl %>"> -->
-                <% if (user.UserProfile && user.UserProfile.photoUrl) { %>
-                    <img src="<%= user.UserProfile.photoUrl %>" width="100">
-                <% } else { %>
-                    <p>No photo</p>
-                <% } %>
-            </td>
-            <td><%= user.username %></td>
-            <td><%= user.email %></td>
-            <td><%= user.role %></td>
-            <td>
-                <!-- %= user.UserProfile.address %> -->
-                <% if (user.UserProfile && user.UserProfile.address) { %>
-                    <%= user.UserProfile.address %>
-                <% } else { %>
-                    <p>No address</p>
-                <% } %>
-            </td>
-            
+        <td style="text-align: center;">
+            <% if (user.UserProfile && user.UserProfile.photoUrl) { %>
+            <img src="<%= user.UserProfile.photoUrl %>" width="100">
+            <% } else { %>
+            <p>No photo</p>
+            <% } %>
+        </td>
+        <td><%= user.username %></td>
+        <td><%= user.email %></td>
+        <td><%= user.role %></td>
+        <td>
+            <% if (user.UserProfile && user.UserProfile.address) { %>
+            <%= user.UserProfile.address %>
+            <% } else { %>
+            <p>No address</p>
+            <% } %>
+        </td>
         </tr>
     </table>
+    </div>
 </body>
 </html>

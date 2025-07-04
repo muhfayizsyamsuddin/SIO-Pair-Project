@@ -4,19 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menus</title>
+    <style>
+    body {
+        font-family: sans-serif;
+        margin: 0;
+        background: #f9f9f9;
+        color: #333;
+    }
+    nav {
+        background: #333;
+        color: #fff;
+        padding: 13px 20px;
+        text-align: center;
+    }
+    nav a {
+        color: #fff;
+        margin-right: 15px;
+        text-decoration: none;
+    }
+    nav a:hover {
+        text-decoration: underline;
+    }
+    .container {
+        max-width: 800px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+        color: #222;
+    }
+    </style>
 </head>
 <body>
-    <a href="/">Home</a>
-    <a href="/orders">Your Orders</a>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/orders">Your Orders</a>
+    </nav>
     <h1>Menus</h1>
+    <div>
         <form action="/menus" method="get">
             <input type="text" name="search">
             <input type="submit" value="SEARCH">
-        </form>
+        </form><br>
+    <div>
         <% if (success) { %>
             <p style="color: green; font-weight: bold;"><%= success %></p>
         <% } %>
-        <br>
         <table border="2">
             <tr>
                 <th>No</th>

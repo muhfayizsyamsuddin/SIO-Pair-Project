@@ -1,8 +1,10 @@
 const { render } = require("ejs")
 const { Menu, User, Order, UserProfile, OrderMenu } = require('../models/index')
-const { formatRupiah } = require('../helpers/helper')
-const { Op } = require("sequelize");
+const { formatRupiah, generateInvoice } = require('../helpers/helper')
+const { Op, Model } = require("sequelize");
 const bcrypt = require('bcryptjs');
+const easyinvoice = require('easyinvoice');
+const fs = require('fs').promises
 
 
 class userController {
@@ -25,143 +27,13 @@ class userController {
             let user = await User.findByPk(userId, {
                 include: UserProfile
             })
+            // console.log(user);
+            
             res.render('profile', { user })
+            // res.send(user)
         } catch(error) {
             console.log(error, '<--------- userProfile');
             res.send(error)
-        }
-    }
-
-    // static async getMenus(req, res) {
-    //     try {
-    //         const { search, success } = req.query
-    //         let menus = await Menu.findAll({
-    //             where: { statusMenu: 'Tersedia' },
-    //             order: [['name', 'ASC']]
-    //         })
-
-    //         if(search) {
-    //             menus = await Menu.findAll({
-    //                 where: { 
-    //                     statusMenu: 'Tersedia', 
-    //                     name: {
-    //                         [Op.iLike]: `%${search}%`
-    //                     }
-    //                 },
-    //                 order: [['name', 'ASC']],
-                    
-    //             })
-    //         }
-    //         // res.send(menus)
-    //         res.render('menu', { menus, formatRupiah, success })
-    //     } catch(error) {
-    //         console.log(error, '<== error get menus')
-    //         res.send(error)
-    //     }
-    // }
-
-    static async getOrders(req, res) {
-        try {
-            const { success } = req.query
-            const userId = req.session.userId
-            
-            const orders = await Order.findAll({
-                where: { 
-                    UserId: userId 
-                },
-                include: {
-                    model: OrderMenu,
-                    include: Menu
-                },
-                order: [['createdAt', 'DESC']]
-            })
-
-            res.render('orders', { orders, success})
-        } catch(error) {
-            console.log(error, '<== error get order')
-            res.send(error)
-        }
-    }
-
-    static async payOrder(req, res) {
-        try {
-            const { menuId } = req.params;
-
-            const order = await Order.findByPk(menuId);
-            
-            await order.update({ statusOrder: 'completed' });
-
-            res.redirect('/orders?success=Pembayaran berhasil!');
-        } catch (error) {
-            console.log(error);
-            res.send(error);
-        }
-    }   
-
-
-    static async handlerEdit(req, res) {
-        try {
-            const { menuId } = req.params
-            const { quantity } = req.body
-
-            const orderMenu = await OrderMenu.findByPk(menuId, {
-                include: Order
-            })
-
-            await orderMenu.update(
-                { quantity }
-            )
-
-            res.redirect('/orders?success=Quantity updated')
-        } catch(error) {
-            console.log(error, '<== error handler edit')
-        }
-    }
-
-    static async handlerDelete(req, res) {
-        try {
-
-            const { menuId } = req.params
-
-            const orderMenu = await OrderMenu.findByPk(menuId, {
-                include: Order
-            });
-
-            await orderMenu.destroy();
-
-            res.redirect('/orders?success=Item berhasil dihapus');
-        } catch (err) {
-            console.log(err);
-            res.send(err);
-        }
-    }
-
-
-    static async postOrder(req, res) {
-        try {
-            
-            const UserId = req.session.userId;
-            const MenuId = +req.params.menuId;
-            const quantity = 1
-
-            const menu = await Menu.findByPk(MenuId);
-
-            const order = await Order.create({
-                UserId,
-                statusOrder: "active"
-            })
-
-            await OrderMenu.create({
-                OrderId: order.id,
-                MenuId,
-                quantity,
-                priceAtOrder: menu.price
-            })
-
-            res.redirect('/menus?success=Order berhasil!');
-        } catch (err) {
-            console.log(err);
-            res.send(err);
         }
     }
 
@@ -180,8 +52,9 @@ class userController {
         try {
             const { username, email, password, role, photoUrl, address, UserId } = req.body
             console.log(req.body)
-            await User.create({username, email, password, role})
-            await UserProfile.create({photoUrl, address, UserId: UserId})
+            let newId = await User.create({username, email, password, role})
+            
+            await UserProfile.create({photoUrl, address, UserId: newId.id})
             // res.redirect('/login')
             res.redirect('/login')
         } catch (error) {
@@ -239,28 +112,41 @@ class userController {
         }
     }
 
-    // static async getLogout (req, res) {
-    //     try {
-    //         req.session.destroy()
-    //         res.redirect('/login')
-    //     } catch (error) {
-    //         res.send(error)
-    //     }
-    // }
-
-    static async deleteUser(req, res) {
+    static async getLogout (req, res) {
         try {
-            const { userId } = req.params;
-            await User.destroy({
-                where: {
-                id: userId
-                }
-            });
-            res.redirect('/');
+            req.session.destroy()
+            res.redirect('/login')
         } catch (error) {
-            res.send(error);
+            res.send(error)
         }
     }
+
+    static async allUser (req, res) {
+        try {
+            const { userId } = req.session 
+            const user = await User.findAll({
+                include: Order
+            })
+            // res.send(user)
+            res.render('auth-pages/allUser', { user })
+        } catch (error) {
+            res.send(error)
+        }
+    }
+
+    // static async deleteUser(req, res) {
+    //     try {
+    //         const { userId } = req.params;
+    //         await User.destroy({
+    //             where: {
+    //             id: userId
+    //             }
+    //         });
+    //         res.redirect('/');
+    //     } catch (error) {
+    //         res.send(error);
+    //     }
+    // }
 }
 
 module.exports = userController

@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
-const router = require('./routers/user')
+const routerUser = require('./routers/user')
+const routerMenu = require('./routers/menu')
+const routerOrder = require('./routers/order')
 const session = require('express-session')
 const port = 3000
 
@@ -17,13 +19,9 @@ app.use(session({
     } //! https
 }))
 
-//! untuk handle anchor pas session user
-// app.use((req, res, next) => {
-//     res.locals.user = req.session.user;
-//     next();
-// });
-
-app.use('/', router)
+app.use('/', routerUser)
+app.use('/menus', routerMenu)
+app.use('/orders', routerOrder)
 
 app.listen(port, () => {
     console.log(`running on port ${port} http://localhost:3000`);

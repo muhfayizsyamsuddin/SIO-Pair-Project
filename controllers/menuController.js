@@ -3,8 +3,8 @@ const { Menu, User, Order, UserProfile, OrderMenu } = require('../models/index')
 const { formatRupiah } = require('../helpers/helper')
 const { Op } = require("sequelize");
 
-class menuController {
-   static async getMenus(req, res) {
+class MenuController {
+    static async getMenus(req, res) {
         try {
             const { search, success } = req.query
             let menus = await Menu.findAll({
@@ -33,4 +33,4 @@ class menuController {
     }
 }
 
-module.exports = menuController
+module.exports = MenuController

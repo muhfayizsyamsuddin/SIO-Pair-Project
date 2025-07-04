@@ -4,11 +4,7 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Order extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+
     static associate(models) {
       // define association here
       // User.hasOne(models.UserProfile)
@@ -25,12 +21,6 @@ module.exports = (sequelize, DataTypes) => {
         return 'just now'
       }
       return `${convertMenit} minutes ago`;
-      // return menit
-      // return new Date(this.createdAt).toLocaleString('en-CA', {
-      //       year: 'numeric',
-      //       month: 'numeric',
-      //       day: 'numeric'
-      //   })
     }
   }
   Order.init({

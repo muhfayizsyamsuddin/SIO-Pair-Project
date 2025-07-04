@@ -4,6 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
+    <style>
+    body {
+        font-family: sans-serif;
+        margin: 0;
+        background: #f9f9f9;
+        color: #333;
+    }
+    nav {
+        background: #333;
+        color: #fff;
+        padding: 13px 20px;
+        text-align: center;
+    }
+    nav a {
+        color: #fff;
+        margin-right: 15px;
+        text-decoration: none;
+    }
+    nav a:hover {
+        text-decoration: underline;
+    }
+    .container {
+        max-width: 800px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+        color: #222;
+    }
+    .features-list {
+        margin-top: 20px;
+        padding-left: 20px;
+    }
+    .features-list li {
+        margin-bottom: 10px;
+    }
+    </style>
 </head>
 <body>
     <!-- <a href="/register">Register</a>
@@ -17,26 +57,27 @@
             <a href="/login">Login</a>
             <a href="/register">Register</a>
         <% } else { %>
-            <a href="/menus">Our Menus</a> ||
-            <!-- <a href="/orders">Your Orders</a> || -->
-            <a href="/logout">Logout</a>
+            <a href="/menus">Our Menus</a>
+            <a href="/userprofile/<%= user.id %>">Profile</a>
+            <% if (user.role === 'admin') { %>
+                <a href="/allUsers/<%= user.id %>">All Users</a>
             <% } %>
-        </nav>
+            <a href="/logout">Logout</a>
+        <% } %>
+    </nav>
+    <div class="container">
         <h1>Home Page</h1>
-        <h2>Welcome, <%= user.username %></h2>
-        <p>SIO (SimpleOrder) adalah aplikasi on-demand yang bertujuan mempermudah pelanggan dalam memesan makanan atau minuman di restoran dengan cara yang simpel dan efisien. Aplikasi ini dirancang agar pengguna dapat melakukan pemesanan secara cepat, memantau status pesanan, dan restoran dapat mengelola order secara lebih terorganisir.</p>
-        <p>
-        Aplikasi ini mendukung sistem pemesanan modern dengan: <br>
-        ✅ Pendaftaran & login user
-        <br>
-        ✅ Manajemen profil pengguna (alamat, foto)
-        <br>
-        ✅ Pilihan menu lengkap dengan ketersediaan (tersedia/habis)
-        <br>
-        ✅ Proses order yang praktis
-        <br>
-        ✅ Status pesanan (misalnya: active, completed)
-        <br>
-        ✅ Integrasi dengan paket easyinvoice untuk pembuatan invoice digital secara otomatis setelah transaksi selesai.</p>
+        <h2>Welcome, <%= user ? user.username : 'Guest' %></h2>
+        <p>SIO (SimpleOrder) adalah aplikasi pemesanan makanan dan minuman secara online yang dirancang untuk memberikan pengalaman order yang cepat, simpel, dan efisien langsung dari restoran pilihan Anda..</p>
+        <p>Aplikasi ini mendukung sistem pemesanan modern dengan: </p>
+        <ul class="features-list">
+            <li>Pendaftaran & login user</li>
+            <li>Manajemen profil pengguna (alamat, foto)</li>
+            <li>Pilihan menu lengkap dengan ketersediaan (tersedia/habis)</li>
+            <li>Proses order yang praktis</li>
+            <li>Status pesanan (misalnya: active, completed)</li>
+            <li>Integrasi dengan paket easyinvoice untuk pembuatan invoice digital secara otomatis setelah transaksi selesai</li>
+        </ul>
+    </div>
 </body>
 </html>
