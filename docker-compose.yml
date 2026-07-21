@@ -1,0 +1,56 @@
+services:
+  app:
+    # build:
+    #   context: .
+    image: faizms14/sio-app:v1.0
+    env_file: .env
+    # ports:
+    #   - 3000:3000
+    networks:
+      - proxy_net
+      - sio-app-net
+    labels:
+      traefik.enable: true
+      traefik.docker.network: proxy_net
+      traefik.http.routers.sioapp.rule: Host(`sioapp.faizms.com`)
+      traefik.http.routers.sioapp.entrypoints: websecure
+      traefik.http.routers.sioapp.tls.certresolver: myresolver
+      traefik.http.services.sioapp.loadbalancer.server.port: 3000
+
+  database:
+    image: postgres:16-alpine
+    container_name: sio-app-db
+    # ports:
+    #   - 5432:5432
+    networks:
+      - sio-app-net
+    environment:
+      - POSTGRES_DB=sio-app-db
+      - POSTGRES_USER=sio-app-user
+      - POSTGRES_PASSWORD=sio-app-password777
+    volumes:
+      - sio-app-db-data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer:latest
+    container_name: sio-app-adminer
+    # ports:
+    #   - 8000:8080
+    networks:
+      - proxy_net
+      - sio-app-net
+    labels:
+      traefik.enable: true
+      traefik.docker.network: proxy_net
+      traefik.http.routers.sioapp-db.rule: Host(`db-sioapp.faizms.com`)
+      traefik.http.routers.sioapp-db.entrypoints: websecure
+      traefik.http.routers.sioapp-db.tls.certresolver: myresolver
+      traefik.http.services.sioapp-db.loadbalancer.server.port: 8080
+
+networks:
+  sio-app-net:
+    driver: bridge
+  proxy_net:
+    external: true
+volumes:
+  sio-app-db-data:
