@@ -1,78 +1,56 @@
-// const easyinvoice = require('easyinvoice');
-// const fs = require('fs').promises;
-
-
-// const formatRupiah = (value) => {
-//     return new Intl.NumberFormat("id-ID", {
-//         style: "currency",
-//         currency: "IDR"
-//     }).format(value)
-// }
-
-// const generateInvoice = async (order, orderItems) => {
-//     const data = {
-//         // apiKey: "free",
-//         // mode: "development",
-//         images: {
-//             logo: "https://public.budgetinvoice.com/img/logo_en_original.png",
-//             background: "https://public.budgetinvoice.com/img/watermark-draft.jpg"
-//         },
-//         sender: {
-//             company: "Resto App",
-//             address: "Jl. Contoh No. 123",
-//             zip: "12345",
-//             city: "Jakarta",
-//             country: "Indonesia"
-//         },
-//         client: {
-//             UserID: order.UserId,
-//         },
-//         information: {
-//             number: `INV-${order.id}-${Date.now()}`,
-//             date: new Date().toLocaleDateString(),
-//             dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString()
-//         },
-//         products: orderItems.map(item => ({
-//             quantity: item.quantity,
-//             description: item.Menu.name,
-//             taxRate: 10,
-//             price: item.priceAtOrder
-//         })),
-//         bottomNotice: "Terima kasih telah memesan!",
-//         settings: {
-//             currency: "IDR"
-//         }
-//     };
-
-//     const result = await easyinvoice.createInvoice(data);
-//     const fileName = `invoices/invoice_${order.id}.pdf`;
-    
-//     await fs.mkdir('invoices', { recursive: true });
-//     await fs.writeFile(fileName, result.pdf, 'base64');
-    
-//     return fileName;
-// };
-
-// module.exports = { formatRupiah, generateInvoice }
-
-const easyinvoice = require('easyinvoice');
-const fs = require('fs').promises;
-
-const formatRupiah = (value) => {
-    return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR"
-    }).format(value);
-};
+const PDFDocument = require("pdfkit");
+const fs = require("fs");
+const path = require("path");
 
 const generateInvoice = async (order, orderItems) => {
-    // Bypass EasyInvoice agar server TIDAK AKAN PERNAH crash lagi karena API Key 401
-    try {
-        console.log(`[INFO] Bypass Invoice PDF untuk Order ID: ${order?.id}`);
-        return null;
-    } catch (error) {
-        return null;
-    }
-};
+  const invoiceDir = path.join(__dirname, "../invoices");
 
-module.exports = { formatRupiah, generateInvoice };
+  if (!fs.existsSync(invoiceDir)) {
+    fs.mkdirSync(invoiceDir);
+  }
+
+  const fileName = path.join(invoiceDir, `invoice_${order.id}.pdf`);
+
+  const doc = new PDFDocument();
+
+  const stream = fs.createWriteStream(fileName);
+
+  doc.pipe(stream);
+
+  doc.fontSize(22).text("INVOICE", {
+    align: "center",
+  });
+
+  doc.moveDown();
+
+  doc.fontSize(14).text(`Invoice : INV-${order.id}`);
+  doc.text(`Tanggal : ${new Date().toLocaleDateString("id-ID")}`);
+  doc.text(`Customer : ${order.User.username}`);
+
+  doc.moveDown();
+
+  let total = 0;
+
+  orderItems.forEach((item) => {
+    const subtotal = item.quantity * item.priceAtOrder;
+    total += subtotal;
+
+    doc.text(
+      `${item.Menu.name}  x${item.quantity}  = ${formatRupiah(subtotal)}`
+    );
+  });
+
+  doc.moveDown();
+
+  doc.fontSize(16).text(`TOTAL : ${formatRupiah(total)}`);
+
+  doc.moveDown();
+
+  doc.fontSize(12).text("Terima kasih atas pesanan Anda.");
+
+  doc.end();
+
+  return new Promise((resolve) => {
+    stream.on("finish", () => resolve(fileName));
+  });
+};
