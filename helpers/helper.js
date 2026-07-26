@@ -2,6 +2,13 @@ const PDFDocument = require("pdfkit");
 const fs = require("fs");
 const path = require("path");
 
+const formatRupiah = (value) => {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  }).format(value);
+};
+
 const generateInvoice = async (order, orderItems) => {
   const invoiceDir = path.join(__dirname, "../invoices");
 
@@ -53,4 +60,9 @@ const generateInvoice = async (order, orderItems) => {
   return new Promise((resolve) => {
     stream.on("finish", () => resolve(fileName));
   });
+};
+
+module.exports = {
+  formatRupiah,
+  generateInvoice,
 };
