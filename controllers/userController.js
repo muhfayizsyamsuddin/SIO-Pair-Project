@@ -3,7 +3,6 @@ const { Menu, User, Order, UserProfile, OrderMenu } = require('../models/index')
 const { formatRupiah, generateInvoice } = require('../helpers/helper')
 const { Op, Model } = require("sequelize");
 const bcrypt = require('bcryptjs');
-const easyinvoice = require('easyinvoice');
 const fs = require('fs').promises
 
 
