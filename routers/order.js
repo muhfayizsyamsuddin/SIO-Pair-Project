@@ -7,7 +7,7 @@ router.get('/', OrderController.getOrders)
 router.post('/:menuId', OrderController.postOrder)
 router.post('/:menuId/edit', OrderController.handlerEdit)
 router.post('/:menuId/delete', OrderController.handlerDelete)
-router.post('/:menuId/pay', OrderController.payOrder)
+router.post('/:orderId/pay', OrderController.payOrder)
 router.get('/invoice/:orderId', OrderController.downloadInvoice)
 
 module.exports = router
